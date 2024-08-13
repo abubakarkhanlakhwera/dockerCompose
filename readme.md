@@ -4,20 +4,6 @@ In this repository, I have implemented Docker Compose for managing and orchestra
  
 
 
-+-----------+       +-----------+                                                       
-|  Service  |       |  Service  |
-|    A      |       |    B      |
-|  (app)    |       |  (db)     |
-+-----------+       +-----------+
-      |                   |
-      |                   |
-      +-------+   +-------+
-              |   |
-        +-----------+
-        |  Docker   |
-        |  Compose  |
-        |   File    |
-        +-----------+
 
 
 
