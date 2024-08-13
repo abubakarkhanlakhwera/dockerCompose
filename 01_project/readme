@@ -1,0 +1,13 @@
+# Docker Compose Nginx Setup
+
+This repository contains a simple Docker Compose configuration to run two Nginx web servers. Each server is mapped to a different port on the host machine.
+
+## Services
+
+- **webserver1**: Runs an Nginx container named `compose1`, exposed on port `8000`.
+- **webserver2**: Runs an Nginx container named `compose2`, exposed on port `8001`.
+
+## Prerequisites
+
+- Docker installed on your machine
+- Docker Compose installed on your machine
