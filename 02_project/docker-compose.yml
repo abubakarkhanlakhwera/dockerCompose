@@ -1,0 +1,49 @@
+version: '3'
+services:
+  db:
+    image: mysql
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+    volumes:
+      - mysqldata:/var/lib/mysql
+    networks:
+      - mynetwork1
+
+  webserver:
+    image: nginx
+    container_name: nginx
+    depends_on:
+      - db
+    ports:
+      - 8000:80
+    networks:
+      - mynetwork1
+
+  centos:
+    image: centos
+    container_name: centos
+    environment:
+      - OS_TYPE=CentOS
+    volumes:
+      - /tmp/compose-vol-local:/tmp/vol-mount-path # bind mount
+    networks:
+      - mynetwork2
+
+  ubuntu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - PASS=secret
+    networks:
+      - mynetwork2
+
+networks:
+  mynetwork1:
+  mynetwork2:
+
+volumes:
+  mysqldata:
+
+   
