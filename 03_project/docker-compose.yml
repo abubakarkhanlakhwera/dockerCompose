@@ -9,8 +9,9 @@ services:
     
 
   node-app:
+    restart: always
     build: .
-    container_name: node
+    container_name: node    
     ports:
       - 8080:8080
     depends_on:
