@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const path = require("path");
+const redis = require("redis");
+
 const client = redis.createClient({
     url: 'redis://redis:6379'
 });
