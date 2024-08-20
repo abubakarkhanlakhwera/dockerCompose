@@ -1,0 +1,41 @@
+
+---
+
+### 2. **Docker Compose with Auto-Scaling (Node.js + MongoDB)**
+
+##This setup includes a Node.js web application connected to a MongoDB database, with auto-scaling for the Node.js service.
+
+##```yaml
+version: '3.8'
+
+services:
+  web:
+    image: node:20-alpine
+    container_name: node_app
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    command: npm start
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/mydatabase
+    depends_on:
+      - mongo
+    deploy:
+      replicas: 3
+      update_config:
+        parallelism: 2
+      restart_policy:
+        condition: on-failure
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo_db
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongo_data:

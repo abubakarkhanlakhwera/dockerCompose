@@ -1,0 +1,52 @@
+
+---
+
+### 5. **Docker Compose with Secrets Management (Django + PostgreSQL)**
+
+# This setup demonstrates how to manage secrets (such as database credentials) using Docker secrets in a Django and PostgreSQL environment.
+
+# ```yaml
+version: '3.8'
+
+services:
+  web:
+    image: django:latest
+    container_name: django_app
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DB_HOST=postgres
+      - DB_NAME=django_db
+      - DB_USER_FILE=/run/secrets/db_user
+      - DB_PASSWORD_FILE=/run/secrets/db_password
+    secrets:
+      - db_user
+      - db_password
+    depends_on:
+      - postgres
+    ports:
+      - "8000:8000"
+
+  postgres:
+    image: postgres:14-alpine
+    container_name: postgres_db
+    environment:
+      POSTGRES_DB: django_db
+    secrets:
+      - db_user
+      - db_password
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+secrets:
+  db_user:
+    file: ./secrets/db_user.txt
+  db_password:
+    file: ./secrets/db_password.txt
+
+volumes:
+  pg_data:

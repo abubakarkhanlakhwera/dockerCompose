@@ -1,0 +1,39 @@
+
+---
+
+### 4. **Docker Compose with Multiple Networks (PHP + MySQL)**
+
+# This setup uses multiple Docker networks to isolate the PHP web application and the MySQL database while allowing them to communicate with each other.
+
+# ```yaml
+version: '3.8'
+
+services:
+  web:
+    image: php:8.2-apache
+    container_name: php_app
+    volumes:
+      - ./app:/var/www/html
+    ports:
+      - "8080:80"
+    networks:
+      - front
+      - back
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: app_db
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - back
+
+networks:
+  front:
+  back:
+
+volumes:
+  db_data:
